@@ -1,7 +1,7 @@
-import React from 'react';
-import LoginScreenCP from './components/login/LoginScreenCP';
+import { JSX } from "react"
+import LoginScreenCP from './components/login/LoginScreenCP'
 
-function App() {
+function App(): JSX.Element {
   return (
     <LoginScreenCP/>
   );

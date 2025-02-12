@@ -1,4 +1,4 @@
-import React from "react"
+import { JSX } from "react"
 
 export default function TodoScreenCP(): JSX.Element {
     return (
