@@ -16,8 +16,8 @@ services:
     build: ./backend
     container_name: backend
     volumes:
-      - ./backend:/src
-      - /venv
+      - ./backend:/app
+      - ./backend/venv:/app/venv
     environment:
       - DATABASE_URL=sqlite:///./todo.db
     ports:
