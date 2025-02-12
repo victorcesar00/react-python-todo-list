@@ -6,7 +6,7 @@ class Todo(Base):
     __tablename__ = "todos"
     
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
-    description: Mapped[int] = mapped_column()
+    description: Mapped[str] = mapped_column()
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), index=True)
 
     owner: Mapped["User"] = relationship(back_populates="todos")
