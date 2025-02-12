@@ -1,14 +1,12 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from src.database import Base
 
 class Todo(Base):
     __tablename__ = "todos"
     
-    id = Column(Integer, primary_key=True, index=True)
-    description = Column(String)
-    user_id = Column(Integer, ForeignKey("users.id"), index=True)
+    id: Mapped[int] = mapped_column(primary_key=True, index=True)
+    description: Mapped[int] = mapped_column()
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), index=True)
 
-    owner = relationship("User", back_populates="todos")
+    owner: Mapped["User"] = relationship(back_populates="todos")

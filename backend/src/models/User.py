@@ -1,14 +1,12 @@
-from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+from typing import List
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from src.database import Base
 
 class User(Base):
     __tablename__ = "users"
     
-    id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, unique=True, index=True)
-    password = Column(String)
+    id: Mapped[int] = mapped_column(primary_key=True, index=True, autoincrement=True)
+    username: Mapped[str] = mapped_column(unique=True, index=True)
+    password: Mapped[str] = mapped_column()
 
-    todos = relationship("Todo", back_populates="owner")
+    todos: Mapped[List["Todo"]] = relationship(back_populates="owner")
