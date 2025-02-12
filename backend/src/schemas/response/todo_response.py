@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-class TodoCreatedResponse(BaseModel):
+class TodoResponse(BaseModel):
     id: int
     description: str
     user_id: int
