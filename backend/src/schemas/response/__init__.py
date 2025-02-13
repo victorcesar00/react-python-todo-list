@@ -1,3 +1,3 @@
-from .todo_response import TodoResponse
-from .user_response import UserResponse
-from .error_response import ErrorResponse
+from .todo_response_schema import TodoResponseSchema
+from .user_response_schema import UserResponseSchema
+from .error_response_schema import ErrorResponseSchema

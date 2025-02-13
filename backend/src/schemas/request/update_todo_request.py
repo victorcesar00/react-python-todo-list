@@ -1,5 +1,5 @@
 from pydantic import BaseModel
 
-class UpdateTodoRequest(BaseModel):
+class UpdateTodoRequestSchema(BaseModel):
     id: int
     description: str

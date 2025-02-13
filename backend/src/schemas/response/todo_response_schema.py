@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-class TodoResponse(BaseModel):
+class TodoResponseSchema(BaseModel):
     id: int
     description: str
     user_id: int

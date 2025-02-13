@@ -1,13 +1,13 @@
 from fastapi import APIRouter, Depends, Response, status
-from src.schemas.request import LoginRequest
-from src.schemas.response import UserResponse
-from src.schemas.response import ErrorResponse
+from src.schemas.request import LoginRequestSchema
+from src.schemas.response import UserResponseSchema
+from src.schemas.response import ErrorResponseSchema
 from src.services import UserService
 
 router = APIRouter()
 
 @router.post("/login")
-async def login(request: LoginRequest, response: Response, service: UserService = Depends()) -> UserResponse | ErrorResponse:
+async def login(request: LoginRequestSchema, response: Response, service: UserService = Depends()) -> UserResponseSchema | ErrorResponseSchema:
     user = service.login(request)
 
     if user:
@@ -15,4 +15,4 @@ async def login(request: LoginRequest, response: Response, service: UserService 
 
     response.status_code = status.HTTP_401_UNAUTHORIZED
 
-    return ErrorResponse(message = "Invalid Credentials")
+    return ErrorResponseSchema(message = "Invalid Credentials")
