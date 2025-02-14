@@ -15,4 +15,4 @@ async def login(request: LoginRequestSchema, response: Response, service: UserSe
 
     response.status_code = status.HTTP_401_UNAUTHORIZED
 
-    return ErrorResponseSchema(message = "Invalid Credentials")
+    return ErrorResponseSchema(message = "Credenciais inválidas")
