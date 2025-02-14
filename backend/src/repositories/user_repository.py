@@ -10,3 +10,6 @@ class UserRepository:
 
     def get_user_by_username(self, username: str) -> User:
         return self.db.query(User).filter(User.username == username).one()
+
+    def get(self, user_id: int) -> User:
+        return self.db.query(User).filter(User.id == user_id).one()
