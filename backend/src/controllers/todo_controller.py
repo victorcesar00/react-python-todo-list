@@ -5,14 +5,14 @@ from src.services import TodoService
 
 router = APIRouter()
 
-@router.post("")
+@router.post('')
 async def create_todo(todo: CreateTodoRequestSchema, service: TodoService = Depends()) -> TodoResponseSchema:
     return service.create_todo(todo)
 
-@router.put("")
+@router.put('')
 async def update_todo(todo: UpdateTodoRequestSchema, service: TodoService = Depends()) -> TodoResponseSchema:
     return service.update_todo(todo)
 
-@router.delete("/{todo_id}")
+@router.delete('/{todo_id}')
 async def delete_todo(todo_id: int, service: TodoService = Depends()) -> None:
     service.delete_todo(todo_id)

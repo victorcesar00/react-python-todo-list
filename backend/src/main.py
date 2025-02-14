@@ -5,9 +5,9 @@ from src.controllers import user_controller
 
 app = FastAPI()
 
-@app.on_event("startup")
+@app.on_event('startup')
 async def startup() -> None:
     create_db()
 
-app.include_router(todo_controller, prefix="/todo")
-app.include_router(user_controller, prefix="/user")
+app.include_router(todo_controller, prefix='/todo')
+app.include_router(user_controller, prefix='/user')
