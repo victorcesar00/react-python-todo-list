@@ -1,9 +1,9 @@
 import { JSX, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import ILoginRequestDTO from "@/http/dtos/request/ILoginRequestDTO"
-import IUserResponseDTO from "@/http/dtos/response/IUserResponseDTO"
 import UserService from "@/http/services/UserService"
 import useAuth from "@/hooks/UseAuth"
+import { isError } from "@/utils/ErrorHandlingUtils";
 
 interface IErrorLabelsFormat {
     usernameErrorLabel: string | undefined,
@@ -39,12 +39,12 @@ export default function LoginFormICP(): JSX.Element {
 
         const response = await UserService.login(credentials)
 
-        if(response instanceof Error) {
+        if(isError(response)) {
             setErrorLabels({...ERROR_LABELS_INITIAL_STATE, loginErrorLabel: response.message})
             return
         }
 
-        login(response as IUserResponseDTO)
+        login(response)
 
         navigate('/todos')
     }
@@ -83,8 +83,6 @@ export default function LoginFormICP(): JSX.Element {
     
     return (
         <form onSubmit={handleSubmit}>
-            <h3>Login</h3>
-
             <input
                 name='username'
                 placeholder='Usuário'

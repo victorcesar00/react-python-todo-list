@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import UserService from "@/http/services/UserService"
 import IUserResponseDTO from "@/http/dtos/response/IUserResponseDTO";
+import { isError } from "@/utils/ErrorHandlingUtils";
 
 interface IReturnFormat {
     user: IUserResponseDTO | null
@@ -22,16 +23,16 @@ export default function useAuth(): IReturnFormat {
                 return
             }
 
-            const returnedUser = await UserService.getUser(Number(userIdOnLocalStorage))
+            const response = await UserService.getUser(Number(userIdOnLocalStorage))
 
-            if(returnedUser instanceof Error) {
+            if(isError(response)) {
                 localStorage.removeItem('userId')
 
                 setUser(null)
                 return
             }
 
-            setUser(returnedUser as IUserResponseDTO)
+            setUser(response)
         }
 
         getUser().then(() => setUserIsLoading(false))

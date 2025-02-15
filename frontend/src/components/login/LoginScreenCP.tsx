@@ -18,6 +18,9 @@ export default function LoginScreenCP(): JSX.Element {
     return (
         userIsLoading ?
             <h1>Carregando...</h1>
-            : <LoginFormICP/>
+            : <>
+                <h3>Login</h3>
+                <LoginFormICP/>
+            </> 
     )
 }
