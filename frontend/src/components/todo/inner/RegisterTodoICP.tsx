@@ -1,25 +1,20 @@
-import { JSX, useRef } from 'react'
+import { JSX, useContext, useRef } from 'react'
 import TodoService from "@/http/services/TodoService"
-import IUserResponseDTO from '@/http/dtos/response/IUserResponseDTO'
 import ICreateTodoRequestDTO from '@/http/dtos/request/ICreateTodoRequestDTO'
-import ITodoResponseDTO from "@/http/dtos/response/ITodoResponseDTO"
 import { isError } from '@/utils/ErrorHandlingUtils'
+import TodoContext, { ITodoContextFormat } from '@/context/TodoContext'
 
-interface IRegisterTodoICPPropsFormat {
-    user: IUserResponseDTO
-    todos?: ITodoResponseDTO[]
-    setTodos: (todos: ITodoResponseDTO[]) => void
-}
-
-export default function RegisterTodoICP(props: IRegisterTodoICPPropsFormat): JSX.Element {
+export default function RegisterTodoICP(): JSX.Element {
     const inputRef = useRef<HTMLInputElement>(null)
+
+    const todoContext = useContext<ITodoContextFormat>(TodoContext)
     
     async function confirm(newTodo: string): Promise<void> {
-        if(!props.todos)
+        if(!todoContext.todos)
             return
 
         const payload: ICreateTodoRequestDTO = {
-            user_id: props.user.id,
+            user_id: todoContext.user.id,
             description: newTodo
         }
 
@@ -28,7 +23,7 @@ export default function RegisterTodoICP(props: IRegisterTodoICPPropsFormat): JSX
         if(isError(response))
             return
 
-        props.setTodos([ ...props.todos, response ])
+        todoContext.setTodos([ ...todoContext.todos, response ])
 
         cleanInput()
     }

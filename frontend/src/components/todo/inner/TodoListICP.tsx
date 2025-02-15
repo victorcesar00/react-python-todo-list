@@ -1,44 +1,40 @@
-import { JSX } from 'react'
+import { JSX, useContext } from 'react'
 import ITodoResponseDTO from "@/http/dtos/response/ITodoResponseDTO"
 import TodoICP from "@/components/todo/inner/TodoICP"
-import IUserResponseDTO from '@/http/dtos/response/IUserResponseDTO'
+import TodoContext, { ITodoContextFormat } from '@/context/TodoContext'
 
-interface ITodoListICPPropsFormat {
-    user: IUserResponseDTO
-    todos?: ITodoResponseDTO[]
-    setTodos: (todos: ITodoResponseDTO[]) => void
-}
+export default function TodoListICP(): JSX.Element {
+    const todoContext = useContext<ITodoContextFormat>(TodoContext)
 
-export default function TodoListICP(props: ITodoListICPPropsFormat): JSX.Element {
     function updateTodoOnList(updatedTodo: ITodoResponseDTO): void {
-        if(!props.todos)
+        if(!todoContext.todos)
             return
         
-        const updatedList = props.todos.map(todo => {
+        const updatedList = todoContext.todos.map(todo => {
             if(todo.id === updatedTodo.id)
                 return updatedTodo
 
             return todo
         })
 
-        props.setTodos(updatedList)
+        todoContext.setTodos(updatedList)
     }
 
     function removeTodoFromList(todoIdToDelete: number): void {
-        if(!props.todos)
+        if(!todoContext.todos)
             return
 
-        const todosCopy = [ ...props.todos ]
+        const todosCopy = [ ...todoContext.todos ]
 
         const todosWithoutRemoved = todosCopy.filter(todo => todo.id !== todoIdToDelete)
 
-        props.setTodos(todosWithoutRemoved)
+        todoContext.setTodos(todosWithoutRemoved)
     }
 
     return (
         <>
-            {props.todos ?
-                props.todos.map((todo) => (
+            {todoContext.todos ?
+                todoContext.todos.map((todo) => (
                     <TodoICP
                         key={todo.id}
                         todo={todo}

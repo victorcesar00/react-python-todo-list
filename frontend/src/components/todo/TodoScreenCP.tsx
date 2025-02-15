@@ -2,10 +2,12 @@ import { JSX, useState, useEffect } from 'react'
 import useAuth from "@/hooks/UseAuth";
 import { useNavigate } from "react-router-dom"
 import TodoService from "@/http/services/TodoService"
-import ITodoResponseDTO from "@/http/dtos/response/ITodoResponseDTO"
 import TodoListICP from "@/components/todo/inner/TodoListICP";
+import ITodoResponseDTO from "@/http/dtos/response/ITodoResponseDTO"
 import RegisterTodoICP from '@/components/todo/inner/RegisterTodoICP';
 import { isError } from '@/utils/ErrorHandlingUtils';
+import TodoContext from '@/context/TodoContext';
+
 
 export default function TodoScreenCP(): JSX.Element {
     const [todos, setTodos] = useState<ITodoResponseDTO[]>()
@@ -41,7 +43,7 @@ export default function TodoScreenCP(): JSX.Element {
         (userIsLoading || !user) ?
             <h1>Carregando...</h1>
             :
-            <>
+            <TodoContext.Provider value={{ user, todos, setTodos }}>
                 <div style={{
                     width: 500,
                     display: 'flex',
@@ -50,11 +52,7 @@ export default function TodoScreenCP(): JSX.Element {
                 }}>
                     <div>
                         <h3>Todo List</h3>
-                        <RegisterTodoICP
-                            user={user}
-                            todos={todos}
-                            setTodos={setTodos}
-                        />
+                        <RegisterTodoICP/>
                     </div>
                     <button onClick={logout}>Sair</button>
                 </div>
@@ -62,12 +60,8 @@ export default function TodoScreenCP(): JSX.Element {
                 <br/>
                 <br/>
 
-                <TodoListICP
-                    user={user}
-                    todos={todos}
-                    setTodos={setTodos}
-                />
-            </>
+                <TodoListICP/>
+            </TodoContext.Provider>
             
     )
 }
