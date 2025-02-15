@@ -5,23 +5,19 @@ import IUserResponseDTO from "@/http/dtos/response/IUserResponseDTO"
 export default class UserService {
     private static BASE_PATH = 'user'
 
-    public static async login(credentials: ILoginRequest): Promise<IUserResponseDTO | unknown> {
+    public static async login(credentials: ILoginRequest): Promise<IUserResponseDTO | Error> {
         try {
-            const user = await Api.post<IUserResponseDTO>(`${this.BASE_PATH}/login`, credentials)
-
-            return user
+            return await Api.post<IUserResponseDTO>(`${this.BASE_PATH}/login`, credentials)
         } catch(error) {
-            return error
+            return error as Error
         }
     }
 
-    public static async getUser(userId: number): Promise<IUserResponseDTO | unknown> {
+    public static async getUser(userId: number): Promise<IUserResponseDTO | Error> {
         try {
-            const user = await Api.get<IUserResponseDTO>(`${this.BASE_PATH}/${userId}`)
-
-            return user
+            return await Api.get<IUserResponseDTO>(`${this.BASE_PATH}/${userId}`)
         } catch(error) {
-            return error
+            return error as Error
         }
     }
 }
