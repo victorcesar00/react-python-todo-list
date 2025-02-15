@@ -1,9 +1,18 @@
 import { JSX } from "react"
-import LoginScreenCP from './components/login/LoginScreenCP'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import LoginScreenCP from '@/components/login/LoginScreenCP'
+
+import TodoScreenCP from "@/components/todo/TodoScreenCP";
 
 function App(): JSX.Element {
   return (
-    <LoginScreenCP/>
+    <Router>
+      <Routes>
+        <Route path='/' element={<LoginScreenCP/>}/>
+        <Route path='/todos' element={<TodoScreenCP/>}/>
+        <Route/>
+      </Routes>
+    </Router>
   );
 }
 

@@ -6,12 +6,12 @@ interface IReturnFormat {
     user: IUserResponseDTO | null
     login: (user: IUserResponseDTO) => void
     logout: () => void
-    loading: boolean
+    userIsLoading: boolean
 }
 
 export default function useAuth(): IReturnFormat {
     const [user, setUser] = useState<IUserResponseDTO | null>(null);
-    const [loading, setLoading] = useState(true);
+    const [userIsLoading, setUserIsLoading] = useState(true);
 
     useEffect(() => {
         const getUser = async () => {
@@ -34,7 +34,7 @@ export default function useAuth(): IReturnFormat {
             setUser(returnedUser as IUserResponseDTO)
         }
 
-        getUser().then(() => setLoading(false))
+        getUser().then(() => setUserIsLoading(false))
     }, [])
 
     const login = (user: IUserResponseDTO): void => {
@@ -47,7 +47,7 @@ export default function useAuth(): IReturnFormat {
         setUser(null)
     }
 
-    return { user, login, logout, loading }
+    return { user, login, logout, userIsLoading }
 
 }
 
