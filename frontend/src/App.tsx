@@ -10,6 +10,7 @@ function App(): JSX.Element {
       <Routes>
         <Route path='/' element={<LoginScreenCP/>}/>
         <Route path='/todos' element={<TodoScreenCP/>}/>
+        <Route path='*' element={<LoginScreenCP/>}/>
         <Route/>
       </Routes>
     </Router>
