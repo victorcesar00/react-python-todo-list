@@ -22,7 +22,7 @@ class TodoService:
         return updated_todo
     
     def delete_todo(self, todo_id: int) -> None:
-        self.repository.delete(todo_id)
+        return self.repository.delete(todo_id)
 
     def get_todos_by_user_id(self, user_id: int) -> list[Todo]:
         return self.repository.get_by_user_id(user_id)

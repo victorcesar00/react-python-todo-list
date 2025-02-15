@@ -24,8 +24,10 @@ class TodoRepository:
         return todo_on_db
 
     def delete(self, todo_id: int) -> None:
-        self.db.query(Todo).filter(Todo.id == todo_id).delete()
+        deletion_success = self.db.query(Todo).filter(Todo.id == todo_id).delete()
         self.db.commit()
+
+        return deletion_success
 
     def get_by_user_id(self, user_id) -> list[Todo]:
         return self.db.query(Todo).filter(Todo.user_id == user_id).all()
