@@ -3,7 +3,7 @@ services:
     build: ./frontend
     container_name: frontend
     volumes:
-      - ./frontend:/app
+      - ./frontend/src:/app/src
     environment:
       - NODE_ENV=development
       - VITE_BACKEND_BASE_URL=http://backend:8000
@@ -18,7 +18,7 @@ services:
     build: ./backend
     container_name: backend
     volumes:
-      - ./backend:/app
+      - ./backend/src:/app/src
     environment:
       - DATABASE_URL=sqlite:///./todo.db
     ports:
