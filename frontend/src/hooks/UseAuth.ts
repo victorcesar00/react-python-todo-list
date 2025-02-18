@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 import UserService from "@/http/services/UserService"
-import IUserResponseDTO from "@/http/dtos/response/IUserResponseDTO";
-import { isError } from "@/utils/ErrorHandlingUtils";
+import IUserResponseDTO from "@/http/dtos/response/IUserResponseDTO"
+import { isError } from "@/utils/ErrorHandlingUtils"
 
 interface IReturnFormat {
     user: IUserResponseDTO | null
@@ -11,8 +11,8 @@ interface IReturnFormat {
 }
 
 export default function useAuth(): IReturnFormat {
-    const [user, setUser] = useState<IUserResponseDTO | null>(null);
-    const [userIsLoading, setUserIsLoading] = useState(true);
+    const [user, setUser] = useState<IUserResponseDTO | null>(null)
+    const [userIsLoading, setUserIsLoading] = useState(true)
 
     useEffect(() => {
         const getUser = async () => {

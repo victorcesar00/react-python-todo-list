@@ -1,12 +1,12 @@
 import { JSX, useState, useEffect } from 'react'
-import useAuth from "@/hooks/UseAuth";
+import useAuth from "@/hooks/UseAuth"
 import { useNavigate } from "react-router-dom"
 import TodoService from "@/http/services/TodoService"
-import TodoListICP from "@/components/todo/inner/TodoListICP";
+import TodoListICP from "@/components/todo/inner/TodoListICP"
 import ITodoResponseDTO from "@/http/dtos/response/ITodoResponseDTO"
-import RegisterTodoICP from '@/components/todo/inner/RegisterTodoICP';
-import { isError } from '@/utils/ErrorHandlingUtils';
-import TodoContext from '@/context/TodoContext';
+import RegisterTodoICP from '@/components/todo/inner/RegisterTodoICP'
+import { isError } from '@/utils/ErrorHandlingUtils'
+import TodoContext from '@/context/TodoContext'
 
 
 export default function TodoScreenCP(): JSX.Element {

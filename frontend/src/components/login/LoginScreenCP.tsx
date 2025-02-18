@@ -1,6 +1,6 @@
 import { JSX, useEffect } from "react"
 import LoginFormICP from "./inner/LoginFormICP"
-import useAuth from "@/hooks/UseAuth";
+import useAuth from "@/hooks/UseAuth"
 import { useNavigate } from "react-router-dom"
 
 export default function LoginScreenCP(): JSX.Element {

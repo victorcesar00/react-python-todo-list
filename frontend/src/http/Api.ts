@@ -1,5 +1,5 @@
 export default class Api {
-    private static BASE_URL = "api/";
+    private static BASE_URL = "api/"
 
     private static DEFAULT_HEADERS = {
         'Content-Type': 'application/json',
@@ -7,9 +7,9 @@ export default class Api {
     }
 
     private static async request<T>(endpoint: string, options: RequestInit): Promise<T> {
-        const response = await fetch(`${this.BASE_URL}${endpoint}`, options);
+        const response = await fetch(`${this.BASE_URL}${endpoint}`, options)
 
-        return this.handleResponse<T>(response);
+        return this.handleResponse<T>(response)
     }
 
     private static async handleResponse<T>(response: Response): Promise<T> {
@@ -23,11 +23,11 @@ export default class Api {
             throw new Error(`Erro ${response.status}: ${response.statusText}`, jsonResponse.detail)
         }
 
-        return response.json() as Promise<T>;
+        return response.json() as Promise<T>
     }
 
     public static get<T>(endpoint: string): Promise<T> {
-        return this.request<T>(endpoint, { method: 'GET' });
+        return this.request<T>(endpoint, { method: 'GET' })
     }
 
     public static post<T>(endpoint: string, body: unknown): Promise<T> {
@@ -35,7 +35,7 @@ export default class Api {
             method: 'POST',
             headers: this.DEFAULT_HEADERS,
             body: JSON.stringify(body),
-        });
+        })
     }
 
     public static put<T>(endpoint: string, body: unknown): Promise<T> {
@@ -43,10 +43,10 @@ export default class Api {
             method: 'PUT',
             headers: this.DEFAULT_HEADERS,
             body: JSON.stringify(body),
-        });
+        })
     }
 
     public static delete<T>(endpoint: string): Promise<T> {
-        return this.request<T>(endpoint, { method: 'DELETE' });
+        return this.request<T>(endpoint, { method: 'DELETE' })
     }
 }

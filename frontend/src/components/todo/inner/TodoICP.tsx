@@ -1,7 +1,7 @@
 import { JSX, useRef, useState } from 'react'
-import TodoService from '@/http/services/TodoService';
-import ITodoResponseDTO from '@/http/dtos/response/ITodoResponseDTO';
-import { isError } from '@/utils/ErrorHandlingUtils';
+import TodoService from '@/http/services/TodoService'
+import ITodoResponseDTO from '@/http/dtos/response/ITodoResponseDTO'
+import { isError } from '@/utils/ErrorHandlingUtils'
 
 interface ITodoICPPropsFormat {
     todo: ITodoResponseDTO

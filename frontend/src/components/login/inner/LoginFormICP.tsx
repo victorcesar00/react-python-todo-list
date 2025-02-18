@@ -1,9 +1,9 @@
 import { JSX, useState } from "react"
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"
 import ILoginRequestDTO from "@/http/dtos/request/ILoginRequestDTO"
 import UserService from "@/http/services/UserService"
 import useAuth from "@/hooks/UseAuth"
-import { isError } from "@/utils/ErrorHandlingUtils";
+import { isError } from "@/utils/ErrorHandlingUtils"
 
 interface IErrorLabelsFormat {
     usernameErrorLabel: string | undefined,
