@@ -92,11 +92,9 @@ Before you begin, ensure you have the following installed:
 ## Volumes
 
 - **Backend**:
-  - `./backend:/app`: Maps the local `backend` directory to the `/app` directory in the container.
-  - `./backend/venv:/app/venv`: Persists the Python virtual environment.
+  - `./backend/src:/app/src`: Maps the local `backend/src` directory to the `/app/src` directory in the container.
 - **Frontend**:
-  - `./frontend:/app`: Maps the local `frontend` directory to the `/app` directory in the container.
-  - `./frontend/node_modules:/app/node_modules`: Persists Node.js dependencies.
+  - `./frontend/src:/app/src`: Maps the local `frontend/src` directory to the `/app/src` directory in the container.
 
 ---
 
