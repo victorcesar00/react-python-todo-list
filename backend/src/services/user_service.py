@@ -5,6 +5,7 @@ from typing import Union
 import os
 import bcrypt
 import jwt
+import json
 from datetime import datetime, timedelta, timezone
 from src.models import User
 from src.repositories import UserRepository
@@ -33,11 +34,18 @@ class UserService:
             return False
     
     @staticmethod
-    def _create_access_token(username: str) -> Token:
+    def _create_access_token(user: User) -> Token:
         expiration_date = datetime.now(timezone.utc) + timedelta(days=1)
 
-        data_to_encode={'sub': username, 'exp': expiration_date}
-        jwt_token = jwt.encode(data_to_encode, HASHING_SECRET_KEY, algorithm=HASHING_ALGORITHM)
+        data_to_encode = {
+            'id': user.id,
+            'username': user.username,
+        }
+
+        data_to_encode_as_json = json.dumps(data_to_encode)
+
+        encode_object={'sub': data_to_encode_as_json, 'exp': expiration_date}
+        jwt_token = jwt.encode(encode_object, HASHING_SECRET_KEY, algorithm=HASHING_ALGORITHM)
 
         return Token(access_token=jwt_token)
 
@@ -47,7 +55,7 @@ class UserService:
         if not user:
             return None
         
-        access_token = self._create_access_token(user.username)
+        access_token = self._create_access_token(user)
 
         return access_token
     

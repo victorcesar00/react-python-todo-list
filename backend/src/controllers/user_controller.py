@@ -1,6 +1,6 @@
 from typing import Annotated
 from fastapi import APIRouter, Depends, Response, status
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordBearer
 from src.forms import LoginRequestForm
 from src.schemas.response import UserResponseSchema
 from src.schemas.response import Token
