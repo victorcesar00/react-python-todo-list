@@ -19,8 +19,6 @@ services:
     container_name: backend
     volumes:
       - ./backend/src:/app/src
-    environment:
-      - DATABASE_URL=sqlite:///./todo.db
     ports:
       - "8000:8000"
     networks:

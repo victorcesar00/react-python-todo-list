@@ -3,3 +3,5 @@ uvicorn
 sqlalchemy
 bcrypt
 fastapi-users
+pyjwt
+python-dotenv
