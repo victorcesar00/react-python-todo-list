@@ -11,15 +11,16 @@ HASHING_SECRET_KEY = os.getenv('HASHING_SECRET_KEY')
 HASHING_ALGORITHM = os.getenv('HASHING_ALGORITHM')
 
 class AuthenticationMiddleware(BaseHTTPMiddleware):
+    @staticmethod
     def _unauthorized_response(message: str) -> Response:
         return Response(
-            content=ErrorResponseSchema(message).json(),
+            content=ErrorResponseSchema(message = message).json(),
             status_code=status.HTTP_401_UNAUTHORIZED,
             media_type="application/json",
         )
     
     async def dispatch(self, request: Request, call_next) -> Response:
-        if not request.url.path.startswith('/user'):
+        if not request.url.path.startswith('/user/login'):
             sent_token: str = request.headers.get('Authorization')
 
             if not sent_token:
