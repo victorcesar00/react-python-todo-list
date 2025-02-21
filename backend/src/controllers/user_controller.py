@@ -1,17 +1,23 @@
+from typing import Annotated
 from fastapi import APIRouter, Depends, Response, status
-from src.schemas.request import LoginRequestSchema
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from src.forms import LoginRequestForm
 from src.schemas.response import UserResponseSchema
+from src.schemas.response import Token
 from src.schemas.response import ErrorResponseSchema
+from src.schemas.response import Token
 from src.services import UserService
 
 router = APIRouter()
 
-@router.post('/login')
-async def login(request: LoginRequestSchema, response: Response, service: UserService = Depends()) -> UserResponseSchema | ErrorResponseSchema:
-    user = service.login(request)
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
-    if user:
-        return user
+@router.post('/login')
+async def login(request: Annotated[LoginRequestForm, Depends()], response: Response, service: UserService = Depends()) -> Token | ErrorResponseSchema:
+    token = service.login(request)
+
+    if token:
+        return token
 
     response.status_code = status.HTTP_401_UNAUTHORIZED
 
