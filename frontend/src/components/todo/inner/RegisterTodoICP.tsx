@@ -14,7 +14,6 @@ export default function RegisterTodoICP(): JSX.Element {
             return
 
         const payload: ICreateTodoRequestDTO = {
-            user_id: todoContext.user.id,
             description: newTodo
         }
 

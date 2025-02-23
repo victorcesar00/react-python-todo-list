@@ -7,8 +7,9 @@ class TodoService:
     def __init__(self, repository: TodoRepository = Depends()):
         self.repository = repository
 
-    def create_todo(self, todo: CreateTodoRequestSchema) -> Todo:
+    def create_todo(self, user_id: int, todo: CreateTodoRequestSchema) -> Todo:
         todo_to_insert = Todo(**todo.model_dump())
+        todo_to_insert.user_id = user_id
 
         inserted_todo = self.repository.insert(todo_to_insert)
 
@@ -21,7 +22,7 @@ class TodoService:
 
         return updated_todo
     
-    def delete_todo(self, todo_id: int) -> None:
+    def delete_todo(self, todo_id: int) -> bool:
         return self.repository.delete(todo_id)
 
     def get_todos_by_user_id(self, user_id: int) -> list[Todo]:

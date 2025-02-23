@@ -55,12 +55,6 @@ class UserService:
         if not user:
             return None
         
-        access_token = self._create_access_token(user)
+        token = self._create_access_token(user)
 
-        return access_token
-    
-    def get_user(self, user_id) -> User | None:
-        try:
-            return self.repository.get(user_id)
-        except NoResultFound:
-            return None
+        return token

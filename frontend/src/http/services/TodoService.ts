@@ -5,9 +5,9 @@ import ICreateTodoRequestDTO from "@/http/dtos/request/ICreateTodoRequestDTO"
 export default class TodoService {
     private static BASE_PATH = 'todo'
 
-    public static async getTodosByUserId(userId: number): Promise<ITodoResponseDTO[] | Error> {
+    public static async getUserTodos(): Promise<ITodoResponseDTO[] | Error> {
         try {
-            return await Api.get<ITodoResponseDTO[]>(`${this.BASE_PATH}/user/${userId}`)
+            return await Api.get<ITodoResponseDTO[]>(`${this.BASE_PATH}/user`)
         } catch(error) {
             alert('Erro ao tentar buscar tarefas')
 

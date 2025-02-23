@@ -23,7 +23,7 @@ class TodoRepository:
 
         return todo_on_db
 
-    def delete(self, todo_id: int) -> None:
+    def delete(self, todo_id: int) -> bool:
         deletion_success = self.db.query(Todo).filter(Todo.id == todo_id).delete()
         self.db.commit()
 

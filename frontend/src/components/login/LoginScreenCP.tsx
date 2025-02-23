@@ -4,19 +4,19 @@ import useAuth from "@/hooks/UseAuth"
 import { useNavigate } from "react-router-dom"
 
 export default function LoginScreenCP(): JSX.Element {
-    const { user, userIsLoading } = useAuth()
+    const { userIsAuthenticated, authIsLoading } = useAuth()
     const navigate = useNavigate()
 
-    useEffect(checkUserAuthentication, [user, userIsLoading, navigate])
+    useEffect(checkUserAuthentication, [userIsAuthenticated, authIsLoading, navigate])
 
     function checkUserAuthentication() {
-        if(!userIsLoading && user) {
+        if(!authIsLoading && userIsAuthenticated) {
             navigate('/todos')
         }
     }
 
     return (
-        userIsLoading ?
+        authIsLoading ?
             <h1>Carregando...</h1>
             : <>
                 <h3>Login</h3>

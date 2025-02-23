@@ -12,38 +12,41 @@ import TodoContext from '@/context/TodoContext'
 export default function TodoScreenCP(): JSX.Element {
     const [todos, setTodos] = useState<ITodoResponseDTO[]>()
     
-    const { user, userIsLoading, logout } = useAuth()
+    const { userIsAuthenticated, authIsLoading, logout } = useAuth()
     const navigate = useNavigate()
     
-    useEffect(checkUserAuthentication, [user, userIsLoading, navigate])
-    useEffect(getTodosEffect, [user])
+    useEffect(checkUserAuthentication, [userIsAuthenticated, authIsLoading, navigate])
 
     function checkUserAuthentication(): void {
-        if(!userIsLoading && !user) {
-            navigate('/')
+        if(!authIsLoading) {
+            if(!userIsAuthenticated) {
+                navigate('/')
+    
+                return
+            }
+
+            getTodos()
         }
     }
 
-    function getTodosEffect(): void {
+    function getTodos(): void {
         async function getTodos(): Promise<void> {
-            if(user) {
-                const response = await TodoService.getTodosByUserId(user.id)
+            const response = await TodoService.getUserTodos()
 
-                if(isError(response))
-                    return
+            if(isError(response))
+                return
 
-                setTodos(response)
-            }
+            setTodos(response)
         }
 
         getTodos()
     }
 
     return (
-        (userIsLoading || !user) ?
+        authIsLoading ?
             <h1>Carregando...</h1>
             :
-            <TodoContext.Provider value={{ user, todos, setTodos }}>
+            <TodoContext.Provider value={{ todos, setTodos }}>
                 <div style={{
                     width: 500,
                     display: 'flex',

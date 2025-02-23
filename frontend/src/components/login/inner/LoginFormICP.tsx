@@ -1,7 +1,6 @@
 import { JSX, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import ILoginRequestDTO from "@/http/dtos/request/ILoginRequestDTO"
-import UserService from "@/http/services/UserService"
 import useAuth from "@/hooks/UseAuth"
 import { isError } from "@/utils/ErrorHandlingUtils"
 
@@ -37,14 +36,12 @@ export default function LoginFormICP(): JSX.Element {
         if(!credentialsAreValid)
             return
 
-        const response = await UserService.login(credentials)
+        const response = await login(credentials)
 
         if(isError(response)) {
             setErrorLabels({...ERROR_LABELS_INITIAL_STATE, loginErrorLabel: response.message})
             return
         }
-
-        login(response)
 
         navigate('/todos')
     }

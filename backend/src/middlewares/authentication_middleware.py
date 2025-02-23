@@ -1,7 +1,8 @@
 import jwt
 import os
-from dotenv import load_dotenv
+import json
 from fastapi import Request, Response, status
+from dotenv import load_dotenv
 from starlette.middleware.base import BaseHTTPMiddleware
 from src.schemas.response import ErrorResponseSchema
 
@@ -37,8 +38,8 @@ class AuthenticationMiddleware(BaseHTTPMiddleware):
             token = token_parts[1]
 
             try:
-                decoded_user = jwt.decode(token, HASHING_SECRET_KEY, algorithms=[HASHING_ALGORITHM])
-                request.state.user = decoded_user
+                decoded_token = jwt.decode(token, HASHING_SECRET_KEY, algorithms=[HASHING_ALGORITHM])
+                request.scope['user'] = json.loads(decoded_token['sub'])
             except jwt.PyJWTError:
                 return self._unauthorized_response('Token inválido ou expirado')
 

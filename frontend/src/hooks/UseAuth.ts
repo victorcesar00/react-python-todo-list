@@ -1,54 +1,68 @@
 import { useEffect, useState } from "react"
 import UserService from "@/http/services/UserService"
-import IUserResponseDTO from "@/http/dtos/response/IUserResponseDTO"
 import { isError } from "@/utils/ErrorHandlingUtils"
+import { getSavedToken, removeSavedToken, saveToken } from "@/utils/AuthenticationUtils"
+import ILoginRequestDTO from "@/http/dtos/request/ILoginRequestDTO"
 
 interface IReturnFormat {
-    user: IUserResponseDTO | null
-    login: (user: IUserResponseDTO) => void
+    userIsAuthenticated: boolean
+    login: (user: ILoginRequestDTO) => Promise<string | Error>
     logout: () => void
-    userIsLoading: boolean
+    authIsLoading: boolean
 }
 
 export default function useAuth(): IReturnFormat {
-    const [user, setUser] = useState<IUserResponseDTO | null>(null)
-    const [userIsLoading, setUserIsLoading] = useState(true)
+    const [userIsAuthenticated, setUserIsAuthenticated] = useState(false)
+    const [authIsLoading, setAuthIsLoading] = useState(true)
 
-    useEffect(() => {
-        const getUser = async () => {
-            const userIdOnLocalStorage = localStorage.getItem('userId')
+    useEffect(getTokenEffect, [])
 
-            if(!userIdOnLocalStorage) {
-                setUser(null)
+    function getTokenEffect(): void {
+        const getToken = async () => {
+            const savedToken = getSavedToken()
+
+            if(!savedToken)
                 return
-            }
 
-            const response = await UserService.getUser(Number(userIdOnLocalStorage))
+            const response = await UserService.validateToken()
 
             if(isError(response)) {
-                localStorage.removeItem('userId')
+                removeSavedToken()
 
-                setUser(null)
                 return
             }
 
-            setUser(response)
+            setUserIsAuthenticated(true)
         }
 
-        getUser().then(() => setUserIsLoading(false))
-    }, [])
+        getToken().then(() => setAuthIsLoading(false))
+    }
 
-    const login = (user: IUserResponseDTO): void => {
-        localStorage.setItem('userId', user.id.toString())
-        setUser(user)
+    const login = async (credentials: ILoginRequestDTO): Promise<string | Error> => {
+        setAuthIsLoading(true)
+
+        const response = await UserService.login(credentials)
+
+        if(isError(response)) {
+            setUserIsAuthenticated(false)
+
+            return response
+        }
+        
+        saveToken(response.access_token)
+
+        setUserIsAuthenticated(true)
+        setAuthIsLoading(false)
+
+        return response.access_token
     }
 
     const logout = (): void => {
-        localStorage.removeItem('userId')
-        setUser(null)
+        removeSavedToken()
+        setUserIsAuthenticated(false)
     }
 
-    return { user, login, logout, userIsLoading }
+    return { userIsAuthenticated, login, logout, authIsLoading }
 
 }
 

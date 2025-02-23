@@ -1,4 +1,3 @@
 from .todo_response_schema import TodoResponseSchema
-from .user_response_schema import UserResponseSchema
 from .error_response_schema import ErrorResponseSchema
 from .token_response_schema import Token
