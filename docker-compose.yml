@@ -1,7 +1,9 @@
 services:
   frontend:
-    build: ./frontend
-    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.debug
+    container_name: frontend_dev
     volumes:
       - ./frontend/src:/app/src
     environment:
@@ -15,8 +17,10 @@ services:
       - backend
 
   backend:
-    build: ./backend
-    container_name: backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.debug
+    container_name: backend_dev
     volumes:
       - ./backend/src:/app/src
     ports:
