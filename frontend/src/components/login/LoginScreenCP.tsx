@@ -2,6 +2,7 @@ import { JSX, useEffect } from "react"
 import LoginFormICP from "./inner/LoginFormICP"
 import useAuth from "@/hooks/UseAuth"
 import { useNavigate } from "react-router-dom"
+import LoadingCP from "@/components/common/LoadingCP"
 
 export default function LoginScreenCP(): JSX.Element {
     const { userIsAuthenticated, authIsLoading } = useAuth()
@@ -17,7 +18,7 @@ export default function LoginScreenCP(): JSX.Element {
 
     return (
         authIsLoading ?
-            <h1>Carregando...</h1>
+            <LoadingCP/>
             : <>
                 <h3>Login</h3>
                 <LoginFormICP/>

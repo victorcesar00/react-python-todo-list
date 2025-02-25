@@ -19,7 +19,7 @@ const ERROR_LABELS_INITIAL_STATE: IErrorLabelsFormat = {
 export default function LoginFormICP(): JSX.Element {
     const [errorLabels, setErrorLabels] = useState<IErrorLabelsFormat>(ERROR_LABELS_INITIAL_STATE)
 
-    const { login } = useAuth()
+    const { login, authIsLoading } = useAuth()
     const navigate = useNavigate()
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>): Promise<void> {
@@ -79,31 +79,34 @@ export default function LoginFormICP(): JSX.Element {
 
     
     return (
-        <form onSubmit={handleSubmit}>
-            <input
-                name='username'
-                placeholder='Usuário'
-            />
-            
-            <br/>
-            <span style={{ color: 'red' }}>{errorLabels.usernameErrorLabel}</span>            
-            <br/>
+        authIsLoading ?
+            <h1>Carregando...</h1>
+            :
+            <form onSubmit={handleSubmit}>
+                <input
+                    name='username'
+                    placeholder='Usuário'
+                />
+                
+                <br/>
+                <span style={{ color: 'red' }}>{errorLabels.usernameErrorLabel}</span>            
+                <br/>
 
-            <input
-                name='password'
-                type='password'
-                placeholder='Senha'
-            />
+                <input
+                    name='password'
+                    type='password'
+                    placeholder='Senha'
+                />
 
-            <br/>
+                <br/>
 
-            <span style={{ color: 'red' }}>{errorLabels.passwordErrorLabel}</span>
-            
-            <br/>
-            <span style={{ color: 'red' }}>{errorLabels.loginErrorLabel}</span>
-            <br/>
+                <span style={{ color: 'red' }}>{errorLabels.passwordErrorLabel}</span>
+                
+                <br/>
+                <span style={{ color: 'red' }}>{errorLabels.loginErrorLabel}</span>
+                <br/>
 
-            <button type='submit'>Entrar</button>
-        </form>
+                <button type='submit'>Entrar</button>
+            </form>
     )
 }

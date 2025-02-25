@@ -2,6 +2,8 @@ import { JSX, useContext } from 'react'
 import ITodoResponseDTO from "@/http/dtos/response/ITodoResponseDTO"
 import TodoICP from "@/components/todo/inner/TodoICP"
 import TodoContext, { ITodoContextFormat } from '@/context/TodoContext'
+import LoadingCP from '@/components/common/LoadingCP'
+
 
 export default function TodoListICP(): JSX.Element {
     const todoContext = useContext<ITodoContextFormat>(TodoContext)
@@ -33,7 +35,9 @@ export default function TodoListICP(): JSX.Element {
 
     return (
         <>
-            {todoContext.todos ?
+            {!todoContext.todos ?
+                <LoadingCP/>
+                :
                 todoContext.todos.map((todo) => (
                     <TodoICP
                         key={todo.id}
@@ -42,7 +46,6 @@ export default function TodoListICP(): JSX.Element {
                         removeTodoFromList={removeTodoFromList}
                     />
                 ))
-                : <h1>Carregando...</h1>
             }
         </>
     )

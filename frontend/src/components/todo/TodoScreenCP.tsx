@@ -7,6 +7,7 @@ import ITodoResponseDTO from "@/http/dtos/response/ITodoResponseDTO"
 import RegisterTodoICP from '@/components/todo/inner/RegisterTodoICP'
 import { isError } from '@/utils/ErrorHandlingUtils'
 import TodoContext from '@/context/TodoContext'
+import LoadingCP from "@/components/common/LoadingCP"
 
 
 export default function TodoScreenCP(): JSX.Element {
@@ -44,7 +45,7 @@ export default function TodoScreenCP(): JSX.Element {
 
     return (
         authIsLoading ?
-            <h1>Carregando...</h1>
+            <LoadingCP/>
             :
             <TodoContext.Provider value={{ todos, setTodos }}>
                 <div style={{
