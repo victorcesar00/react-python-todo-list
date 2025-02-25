@@ -21,7 +21,7 @@ class AuthenticationMiddleware(BaseHTTPMiddleware):
         )
     
     async def dispatch(self, request: Request, call_next) -> Response:
-        if not request.url.path.startswith('/user/login'):
+        if request.url.path.startswith('/todo') or request.url.path.startswith('/todo/validate-token'):
             sent_token: str = request.headers.get('Authorization')
 
             if not sent_token:
