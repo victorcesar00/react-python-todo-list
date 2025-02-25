@@ -1,106 +1,110 @@
 # React + FastAPI To-Do List
 
-This project is a simple To-Do List application with a **React + TypeScript frontend** and a **Python FastAPI backend**, along with a **SQLite database**. It uses Docker and Docker Compose for easy setup and deployment.
+This project is a monorepo containing a frontend built with React + TypeScript and a backend built with Python FastAPI. The application uses SQLite as the database, which is located in the `backend/` folder. The application can be run locally for development using Docker Compose, and it can be deployed to production using AWS Copilot.
 
----
+## Table of Contents
+- [Local Development](#local-development)
+- [Production Deployment](#production-deployment)
 
-## Features
+## Local Development
 
-- **Pre-registered Users**: There are three users registered in the database:
-  - `joao_bosco` / `12345`
-  - `victor_cesar` / `abcde`
-  - `wenderson` / `98765`
-
----
-
-## Prerequisites
-
-Before you begin, ensure you have the following installed:
-
-- **Docker**: [Install Docker](https://docs.docker.com/get-docker/)
-- **Docker Compose**: [Install Docker Compose](https://docs.docker.com/compose/install/)
-
----
-
-## Setup
+To run the application locally for development, follow these steps:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/victorcesar00/react-python-todo-list.git
+   git clone https://github.com/victorcesar00/react-python-todo-list
    cd react-python-todo-list
    ```
 
-2. **Build and run the project**:
+2. **Build and run the containers**:
+   The application uses Docker Compose to manage the development environment. Run the following command to start the frontend and backend services:
    ```bash
    docker-compose up --build
    ```
 
-   This will:
-   - Build the Docker images for the backend and frontend.
-   - Start the containers and link them together.
+3. **Access the application**:
+   - The frontend will be available at `http://localhost:5173`.
+   - The backend API will be available at `http://localhost:8000`.
 
-3. **Access the services**:
-   - **Backend (FastAPI)**: Available at `http://localhost:8000`
-   - **Frontend (React)**: Available at `http://localhost:5173`
+4. **Development workflow**:
+   - The frontend and backend code is mounted as volumes, so any changes you make to the code will be reflected in the running containers without needing to rebuild them.
+   - The frontend uses Vite for hot module replacement (HMR), so changes to the frontend code will automatically reload the browser.
 
-4. **Stop the services**:
+5. **Stopping the containers**:
+   To stop the containers, run:
    ```bash
    docker-compose down
    ```
 
-5. **Clean up (optional)**:
-   To remove containers and volumes, run:
+## Production Deployment
+
+To deploy the application to production using AWS Copilot, follow these steps:
+
+1. **Install AWS Copilot**:
+   If you haven't already installed AWS Copilot, you can do so by following the [official installation guide](https://aws.github.io/copilot-cli/docs/getting-started/install/).
+
+2. **Initialize the application**:
+   Run the following command to initialize the application in AWS Copilot:
    ```bash
-   docker-compose down -v
+   copilot app init todo-list
    ```
 
----
+3. **Deploy the backend service**:
+   Deploy the backend service using the following command:
+   ```bash
+   copilot deploy --name backend
+   ```
 
-## Platform-Specific Notes
+4. **Deploy the frontend service**:
+   Deploy the frontend service using the following command:
+   ```bash
+   copilot deploy --name frontend
+   ```
 
-### **Windows**
-- Ensure **WSL 2 (Windows Subsystem for Linux)** is installed and enabled. Docker Desktop uses WSL 2 for better performance.
-- File permissions in volumes might differ. If you encounter permission issues, adjust permissions in WSL or Docker settings.
-- Use **PowerShell** or **Windows Terminal** for running Docker commands.
+5. **Access the deployed application**:
+   - The frontend will be accessible via the public load balancer URL provided by AWS Copilot.
+   - The backend will be accessible internally via the DNS `http://backend.prod.todo-list.internal`.
 
-### **Linux**
-- Docker runs natively on Linux, so no additional setup is required.
-- Ensure your user is added to the `docker` group to run Docker commands without `sudo`:
-  ```bash
-  sudo usermod -aG docker $USER
-  ```
-- File permissions in volumes should work as expected.
+6. **Remove the backend load balancer rule**:
+   By default, AWS Copilot sets a rule on the backend load balancer that only allows requests from the same DNS (`http://backend.prod.todo-list.internal`). To allow the frontend to communicate with the backend, you need to remove this rule in the AWS Management Console.
 
-### **macOS**
-- Docker runs natively on macOS, but ensure Docker Desktop is installed and running.
-- File permissions in volumes should work as expected.
-- Use **Terminal** or **iTerm2** for running Docker commands.
-
----
+7. **Scaling and monitoring**:
+   - The backend and frontend services are configured to scale based on CPU and memory usage.
+   - You can monitor the services using AWS CloudWatch.
 
 ## Environment Variables
 
 ### Backend
-- `DATABASE_URL`: The database connection URL. Defaults to `sqlite:///./todo.db`.
+The backend service uses the following environment variables, which are defined in `backend/.env`:
+- `DATABASE_URL`: The URL for the SQLite database.
+- `HASHING_SECRET_KEY`: The secret key used for hashing.
+- `HASHING_ALGORITHM`: The algorithm used for hashing.
 
 ### Frontend
-- `NODE_ENV`: The environment in which the frontend is running. Set to `development`.
-- `VITE_BACKEND_BASE_URL`: The base URL for the backend API. Set to `http://backend:8000`.
+The frontend service uses the following environment variable:
+- `VITE_BACKEND_BASE_URL`: The base URL for the backend API during development. This is set to `http://backend:8000`.
 
----
+## Dockerfiles
 
-## Volumes
+### Backend
+- `Dockerfile.debug`: Used for local development. It includes hot-reloading for faster development.
+- `Dockerfile.prod`: Used for production. It optimizes the build for performance and security.
 
-- **Backend**:
-  - `./backend/src:/app/src`: Maps the local `backend/src` directory to the `/app/src` directory in the container.
-- **Frontend**:
-  - `./frontend/src:/app/src`: Maps the local `frontend/src` directory to the `/app/src` directory in the container.
+### Frontend
+- `Dockerfile.debug`: Used for local development. It includes hot-reloading for faster development.
+- `Dockerfile.prod`: Used for production. It builds the React application and serves it using Nginx.
 
----
+## Nginx Configuration
+The frontend uses an Nginx configuration (`frontend/nginx.conf`) to serve the built React application and proxy requests to the backend API.
 
-## Troubleshooting
+## Vite Configuration
+The frontend uses Vite for development, with a proxy configuration to route API requests to the backend during development.
 
-- **Port Conflicts**: If ports `8000` or `5173` are already in use, update the `ports` section in `docker-compose.yml`.
-- **Build Issues**: Ensure all dependencies are correctly specified in `requirements.txt` (backend) and `package.json` (frontend).
-- **Permission Issues**: On Windows, ensure WSL 2 is properly configured. On Linux/macOS, ensure your user has the correct permissions.
+## AWS Copilot Manifests
+The `copilot/` folder contains the manifests for deploying the application to AWS ECS using Copilot:
+- `environments/prod/manifest.yml`: Defines the production environment.
+- `backend/manifest.yml`: Defines the backend service.
+- `frontend/manifest.yml`: Defines the frontend service.
 
+## Conclusion
+This application is designed to be easily run locally for development and deployed to production using AWS Copilot. The Docker Compose setup allows for a seamless development experience, while the AWS Copilot setup ensures a smooth deployment process to a production environment.
