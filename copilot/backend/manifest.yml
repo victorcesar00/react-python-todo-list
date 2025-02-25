@@ -1,0 +1,35 @@
+name: backend
+type: Backend Service
+
+image:
+  build: backend/Dockerfile.prod
+  port: 8000
+
+http:
+  path: '/'
+  healthcheck:
+    path: '/'
+    success_codes: '200,301'
+    healthy_threshold: 3
+    interval: 15s
+    timeout: 10s
+    grace_period: 30s
+  deregistration_delay: 50s
+
+network:
+  vpc:
+    placement: 'private'
+
+count:
+  range: 1-10
+  cooldown:
+    in: 30s
+  cpu_percentage: 70
+  memory_percentage:
+    value: 80
+    cooldown:
+      out: 45s
+  requests: 10
+  response_time: 2s
+
+env_file: backend/.env

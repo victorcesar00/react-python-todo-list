@@ -1,0 +1,24 @@
+name: 'frontend'
+type: 'Load Balanced Web Service'
+
+image:
+  build: frontend/Dockerfile.prod
+  port: 80
+
+variables:
+  NODE_ENV: production
+
+http:
+  path: '/'
+  
+count:
+  range: 1-10
+  cooldown:
+    in: 30s
+  cpu_percentage: 70
+  memory_percentage:
+    value: 80
+    cooldown:
+      out: 45s
+  requests: 10
+  response_time: 2s
