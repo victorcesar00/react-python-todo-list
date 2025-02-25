@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import ILoginRequestDTO from "@/http/dtos/request/ILoginRequestDTO"
 import useAuth from "@/hooks/UseAuth"
 import { isError } from "@/utils/ErrorHandlingUtils"
+import LoadingCP from "@/components/common/LoadingCP"
 
 interface IErrorLabelsFormat {
     usernameErrorLabel: string | undefined,
@@ -80,7 +81,7 @@ export default function LoginFormICP(): JSX.Element {
     
     return (
         authIsLoading ?
-            <h1>Carregando...</h1>
+            <LoadingCP/>
             :
             <form onSubmit={handleSubmit}>
                 <input
