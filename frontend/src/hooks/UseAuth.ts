@@ -45,6 +45,7 @@ export default function useAuth(): IReturnFormat {
 
         if(isError(response)) {
             setUserIsAuthenticated(false)
+            setAuthIsLoading(false)
 
             return response
         }
