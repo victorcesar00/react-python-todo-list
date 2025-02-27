@@ -25,15 +25,15 @@ class AuthenticationMiddleware(BaseHTTPMiddleware):
             sent_token: str = request.headers.get('Authorization')
 
             if not sent_token:
-                return self._unauthorized_response('Token não fornecido')
+                return self._unauthorized_response('Token not provided')
 
             if not sent_token.startswith('Bearer '):
-                return self._unauthorized_response('Formato de token inválido. Use "Bearer <token>"')
+                return self._unauthorized_response('Invalid token format. Use "Bearer <token>"')
 
             token_parts = sent_token.split(' ')
 
             if len(token_parts) != 2:
-                return self._unauthorized_response('Formato de token inválido. Use "Bearer <token>"')
+                return self._unauthorized_response('Invalid token format. Use "Bearer <token>"')
 
             token = token_parts[1]
 
@@ -41,7 +41,7 @@ class AuthenticationMiddleware(BaseHTTPMiddleware):
                 decoded_token = jwt.decode(token, HASHING_SECRET_KEY, algorithms=[HASHING_ALGORITHM])
                 request.scope['user'] = json.loads(decoded_token['sub'])
             except jwt.PyJWTError:
-                return self._unauthorized_response('Token inválido ou expirado')
+                return self._unauthorized_response('Invalid or expired token')
 
         response = await call_next(request)
 
