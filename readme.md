@@ -68,7 +68,10 @@ To deploy the application to production using AWS Copilot, follow these steps:
 6. **Remove the backend load balancer rule**:
    By default, AWS Copilot sets a rule on the backend load balancer that only allows requests from the same DNS (`http://backend.prod.todo-list.internal`). To allow the frontend to communicate with the backend, you need to remove this rule in the AWS Management Console.
 
-7. **Scaling and monitoring**:
+7. **Check security groups**:
+   In case the frontend can't access the backend, check if the frontend load balancer is in the internal load balancer security group, and if both are on the environment security group.
+
+8. **Scaling and monitoring**:
    - The backend and frontend services are configured to scale based on CPU and memory usage.
    - You can monitor the services using AWS CloudWatch.
 
