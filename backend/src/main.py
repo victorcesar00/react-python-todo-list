@@ -1,6 +1,9 @@
 from fastapi import FastAPI, status
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
+from dotenv import load_dotenv
+import os
 from src.database import create_db, SessionLocal
 from src.middlewares import AuthenticationMiddleware
 from src.controllers import todo_controller
@@ -8,10 +11,19 @@ from src.controllers import user_controller
 
 app = FastAPI()
 
+load_dotenv()
+
 @app.on_event('startup')
 async def startup() -> None:
     create_db()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[os.getenv('FRONTEND_URL')],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.add_middleware(AuthenticationMiddleware)
 
 app.include_router(todo_controller, prefix='/todo')

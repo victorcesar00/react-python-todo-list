@@ -10,7 +10,12 @@ variables:
 
 http:
   path: '/'
+  target_port: 80
   
+network:
+  vpc:
+    placement: 'public'
+
 count:
   range: 1-10
   cooldown:
@@ -20,5 +25,5 @@ count:
     value: 80
     cooldown:
       out: 45s
-  requests: 10
+  requests: 100
   response_time: 2s

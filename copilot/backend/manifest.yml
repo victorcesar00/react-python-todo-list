@@ -7,6 +7,7 @@ image:
 
 http:
   path: '/'
+  target_port: 8000
   healthcheck:
     path: '/'
     success_codes: '200,301'
@@ -19,6 +20,7 @@ http:
 network:
   vpc:
     placement: 'private'
+  connect: true
 
 count:
   range: 1-10
@@ -29,7 +31,7 @@ count:
     value: 80
     cooldown:
       out: 45s
-  requests: 10
+  requests: 100
   response_time: 2s
 
 env_file: backend/.env

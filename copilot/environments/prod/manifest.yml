@@ -3,3 +3,7 @@ type: Environment
 
 observability:
   container_insights: false
+
+  private:
+    ingress:
+      vpc: true
