@@ -1,4 +1,4 @@
-import { removeSavedToken } from "@/utils/AuthenticationUtils"
+import { getSavedToken, removeSavedToken } from "@/utils/AuthenticationUtils"
 
 export default class Api {
     private static BASE_URL = 'api/'
@@ -14,7 +14,7 @@ export default class Api {
         if(authenticated) {
             optionsCopy.headers = {
                 ...this.DEFAULT_HEADERS,
-                'Authorization': `Bearer ${localStorage.getItem('user-jwt')}`
+                'Authorization': `Bearer ${getSavedToken()}`
             }
         }
 
