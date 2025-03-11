@@ -2,6 +2,17 @@
 
 This project is a monorepo containing a frontend built with React + TypeScript and a backend built with Python FastAPI. The application uses SQLite as the database, which is located in the `backend/` folder. The application can be run locally for development using Docker Compose, and it can be deployed to production using AWS Copilot.
 
+---
+
+## Features
+
+- **Pre-registered Users**: There are three users registered in the database:
+  - `joao_bosco` / `12345`
+  - `victor_cesar` / `abcde`
+  - `wenderson` / `98765`
+
+---
+
 ## Table of Contents
 - [Local Development](#local-development)
 - [Production Deployment](#production-deployment)
