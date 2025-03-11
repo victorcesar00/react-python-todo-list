@@ -7,6 +7,9 @@ class TodoRepository:
     def __init__(self, db: Session = Depends(get_db)):
         self.db = db
     
+    def get(self, id: int) -> Todo:
+        return self.db.query(Todo).filter(Todo.id == id).first()
+
     def insert(self, todo: Todo) -> Todo:
         self.db.add(todo)
         self.db.commit()
@@ -23,8 +26,8 @@ class TodoRepository:
 
         return todo_on_db
 
-    def delete(self, todo_id: int) -> bool:
-        deletion_success = self.db.query(Todo).filter(Todo.id == todo_id).delete()
+    def delete(self, id: int) -> bool:
+        deletion_success = self.db.query(Todo).filter(Todo.id == id).delete()
         self.db.commit()
 
         return deletion_success

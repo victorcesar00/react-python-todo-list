@@ -19,7 +19,7 @@ async def login(request: Annotated[LoginRequestForm, Depends()], response: Respo
 
     response.status_code = status.HTTP_401_UNAUTHORIZED
 
-    return ErrorResponseSchema(message = 'Credenciais inválidas')
+    return ErrorResponseSchema(message = 'Invalid credentials')
 
 @router.get('/validate-token')
 async def validate_token() -> bool:
