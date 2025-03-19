@@ -1,6 +1,5 @@
 from fastapi import FastAPI, HTTPException, Form, status
 from fastapi.security import OAuth2PasswordRequestForm
-from typing import Annotated
 from pydantic import ValidationError
 from src.schemas.request import LoginRequestSchema
 

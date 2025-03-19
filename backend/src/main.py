@@ -8,6 +8,9 @@ from src.database import create_db, SessionLocal
 from src.middlewares import AuthenticationMiddleware
 from src.controllers import todo_controller
 from src.controllers import user_controller
+from src.limiter import limiter
+from slowapi.errors import RateLimitExceeded
+from slowapi import _rate_limit_exceeded_handler
 
 app = FastAPI()
 
@@ -28,6 +31,10 @@ app.add_middleware(AuthenticationMiddleware)
 
 app.include_router(todo_controller, prefix='/todo')
 app.include_router(user_controller, prefix='/user')
+
+app.state.limiter = limiter
+
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 @app.get("/")
 async def health_check():

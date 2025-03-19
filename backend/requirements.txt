@@ -5,3 +5,4 @@ bcrypt
 fastapi-users
 pyjwt
 python-dotenv
+slowapi
