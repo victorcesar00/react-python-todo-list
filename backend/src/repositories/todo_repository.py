@@ -1,13 +1,15 @@
 from fastapi import Depends
+from typing import Optional
 from sqlalchemy.orm import Session
+from src.repositories.interfaces import TodoRepositoryInterface
 from src.database import get_db
 from src.models import Todo
 
-class TodoRepository:
+class TodoRepository(TodoRepositoryInterface):
     def __init__(self, db: Session = Depends(get_db)):
         self.db = db
     
-    def get(self, id: int) -> Todo:
+    def get(self, id: int) -> Optional[Todo]:
         return self.db.query(Todo).filter(Todo.id == id).first()
 
     def insert(self, todo: Todo) -> Todo:

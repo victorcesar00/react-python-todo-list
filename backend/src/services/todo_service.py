@@ -1,10 +1,11 @@
 from fastapi import Depends, HTTPException, status
+from src.repositories.interfaces import TodoRepositoryInterface
 from src.repositories import TodoRepository
 from src.schemas.request import CreateTodoRequestSchema, UpdateTodoRequestSchema
 from src.models import Todo
 
 class TodoService:
-    def __init__(self, repository: TodoRepository = Depends()):
+    def __init__(self, repository: TodoRepositoryInterface = Depends(TodoRepository)):
         self.repository = repository
 
     def create_todo(self, user_id: int, todo: CreateTodoRequestSchema) -> Todo:

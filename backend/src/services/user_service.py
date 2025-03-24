@@ -8,6 +8,7 @@ import jwt
 import json
 from datetime import datetime, timedelta, timezone
 from src.models import User
+from src.repositories.interfaces import UserRepositoryInterface
 from src.repositories import UserRepository
 from src.schemas.request import LoginRequestSchema
 from src.schemas.response import Token
@@ -18,7 +19,7 @@ HASHING_SECRET_KEY = os.getenv('HASHING_SECRET_KEY')
 HASHING_ALGORITHM = os.getenv('HASHING_ALGORITHM')
 
 class UserService:
-    def __init__(self, repository: UserRepository = Depends()):
+    def __init__(self, repository: UserRepositoryInterface = Depends(UserRepository)):
         self.repository = repository
 
     def _authenticate_user(self, request: LoginRequestSchema) -> Union[User, False]:
