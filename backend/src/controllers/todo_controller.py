@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, Request, Response, HTTPException
-from typing import Union
+from typing import Union, List
 from src.schemas.request import CreateTodoRequestSchema, UpdateTodoRequestSchema
 from src.schemas.response import TodoResponseSchema, ErrorResponseSchema
 from src.services import TodoService
@@ -36,7 +36,7 @@ async def delete_todo(todo_id: int, request: Request, response: Response, servic
 
         return ErrorResponseSchema(message = e.detail)
 
-@router.get('/user', response_model=list[TodoResponseSchema])
+@router.get('/user', response_model=List[TodoResponseSchema])
 @limiter.limit('5/second')
 async def get_user_todos(request: Request, service: TodoServiceInterface = Depends(get_service)):
     return service.get_todos_by_user_id(request.user['id'])

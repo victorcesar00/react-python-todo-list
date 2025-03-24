@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import List
 from src.schemas.request import CreateTodoRequestSchema, UpdateTodoRequestSchema
 from src.models import Todo
 
@@ -16,5 +17,5 @@ class TodoServiceInterface(ABC):
         pass
 
     @abstractmethod
-    def get_todos_by_user_id(self, user_id: int) -> list[Todo]:
+    def get_todos_by_user_id(self, user_id: int) -> List[Todo]:
         pass

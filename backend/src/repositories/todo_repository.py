@@ -1,5 +1,5 @@
 from fastapi import Depends
-from typing import Optional
+from typing import Optional, List
 from sqlalchemy.orm import Session
 from src.repositories.interfaces import TodoRepositoryInterface
 from src.database import get_db
@@ -34,5 +34,5 @@ class TodoRepository(TodoRepositoryInterface):
 
         return deletion_success
 
-    def get_by_user_id(self, user_id) -> list[Todo]:
+    def get_by_user_id(self, user_id) -> List[Todo]:
         return self.db.query(Todo).filter(Todo.user_id == user_id).all()

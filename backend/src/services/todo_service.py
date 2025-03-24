@@ -1,4 +1,5 @@
 from fastapi import Depends, HTTPException, status
+from typing import List
 from src.repositories.interfaces import TodoRepositoryInterface
 from src.repositories import TodoRepository
 from src.schemas.request import CreateTodoRequestSchema, UpdateTodoRequestSchema
@@ -42,5 +43,5 @@ class TodoService:
 
         return self.repository.delete(todo_id)
 
-    def get_todos_by_user_id(self, user_id: int) -> list[Todo]:
+    def get_todos_by_user_id(self, user_id: int) -> List[Todo]:
         return self.repository.get_by_user_id(user_id)

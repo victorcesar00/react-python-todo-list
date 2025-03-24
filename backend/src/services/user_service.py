@@ -22,7 +22,7 @@ class UserService:
     def __init__(self, repository: UserRepositoryInterface = Depends(UserRepository)):
         self.repository = repository
 
-    def _authenticate_user(self, request: LoginRequestSchema) -> Union[User, False]:
+    def _authenticate_user(self, request: LoginRequestSchema) -> Union[User, bool]:
         try:
             user = self.repository.get_user_by_username(request.username)
             hashed_password = user.password
